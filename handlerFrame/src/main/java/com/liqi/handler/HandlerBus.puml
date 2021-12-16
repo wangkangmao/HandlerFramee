@@ -1,0 +1,134 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+title  HandlerFrame
+skinparam backgroundColor #EEEBDC
+skinparam roundcorner 20
+skinparam sequenceArrowThickness 2
+
+
+
+
+namespace com.liqi.handler {
+
+    interface OnBaseHandlerMethodListener{
+        +void addSparseArray()
+        +void putMessage()
+        +void removeKeyData()
+        +void success()
+    }
+    class BaseHandler{
+        +BaseHandler baseHandler
+        +SparseArray<SoftReference<OnBaseHandlerUpDateListener>> arrayReference
+        +OnBaseHandlerGetKeyListener mOnBaseHandlerGetKeyListener
+        +void BaseHandler()
+        +BaseHandler getBaseHandler()
+        +void setOnFactoryOperateListener()
+        +void handleMessage(Message msg)
+        +void addSparseArray(OnBaseHandlerUpDateListener activity)
+        +void putMessage(int tag, Object obj)
+        +void removeKeyData()
+        +void removeAll()
+        +void setOnBaseHandlerGetKeyListener(OnBaseHandlerGetKeyListener onBaseHandlerGetKeyListener)
+    }
+
+    OnBaseHandlerMethodListener <|.. BaseHandler
+
+
+
+   interface OnBaseHandlerOperateListener{
+        +void onSubscribe()
+        +void sendMessage()
+        +void removeSubscribe()
+        +void removeSubscribe()
+    }
+    class BaseHandlerOperate{
+        +static BaseHandlerOperate handlerOperate
+        + ArrayList<Class<?>> subscribeList
+        +OnBaseHandlerMethodListener handler
+        +BaseHandlerFactoryId factoryId
+        +BaseHandlerOperate()
+        +static OnBaseHandlerOperateListener getBaseHandlerOperate()
+        +void onSubscribe(Class<?> clazz,
+                                   OnBaseHandlerUpDateListener handlerUpDate)
+        +void sendMessage(Class<?> clazz, int tag, Object obj)
+        +void removeSubscribe(Class<?> clazz)
+        +void removeSubscribe()
+        +synchronized int handlerGetKey()
+        +void removeFactoryKeyData(int subscribeId)
+        +void removeAllFactoryData()
+    }
+
+    BaseHandlerFactoryId <..BaseHandlerOperate
+
+    OnBaseHandlerOperateListener <|.. BaseHandlerOperate
+
+    interface OnBaseHandlerGetKeyListener{
+        +int handlerGetKey()
+    }
+
+    OnBaseHandlerGetKeyListener <|.. BaseHandlerOperate
+
+
+    class BaseHandlerFactoryId{
+        +BaseHandlerFactoryId baseHandlerIdObj
+        +int idIni = 0X8
+        +Hashtable<Class<?>, Integer> hIds
+        +BaseHandlerFactoryId()
+        +static BaseHandlerFactoryId getBaseHandlerFactoryId()
+        +void removeSubscribeId(int subscribeId)
+        +void removeAllSubscribeId()
+        +int getFactoryId(Class<?> clazzKey)
+        +int addClassID(Class<?> clazzKey)
+        +int getValues()
+    }
+
+
+    interface OnFactoryOperateListener{
+        +void removeFactoryKeyData()
+        +void removeAllFactoryData()
+    }
+
+
+    OnFactoryOperateListener <|.. BaseHandlerOperate
+
+    BaseHandlerOperate <.. BaseHandler
+
+}
+
+
+namespace  com.liqi {
+
+    interface OnBaseHandlerUpDateListener{
+        +void handleMessage()
+    }
+
+    abstract class BaseActivity{
+        +OnBaseHandlerOperateListener handler
+        +void onCreate(Bundle savedInstanceState)
+        +void onDestroy()
+        +abstract void onCreateData(Bundle savedInstanceState)
+        +abstract void onDestroyData()
+        +void handleMessage(Message msg)
+    }
+
+    OnBaseHandlerUpDateListener <|.. BaseActivity
+
+    class TestMainActivity
+
+
+     BaseActivity <|-- TestMainActivity
+
+     class TestOneActivity
+
+     BaseActivity <|-- TestOneActivity
+
+
+     com.liqi.handler.OnBaseHandlerOperateListener <.. BaseActivity
+     com.liqi.handler.BaseHandlerOperate <|.. BaseActivity
+
+}
+
+'https://blog.csdn.net/junhuahouse/article/details/80767632
+
+@enduml

@@ -1,0 +1,2 @@
+com.liqi.handler
+string app_name
